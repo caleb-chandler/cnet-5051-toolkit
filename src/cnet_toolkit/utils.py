@@ -4,6 +4,7 @@ import networkx as nx
 import math
 import numpy as np
 
+
 def random_edge(G):
     '''
     selects one edge at random from graph G and returns its two nodes
@@ -20,11 +21,13 @@ def random_edge(G):
 
     return list(random_edge)
 
+
 def random_node(G):
     ''' 
     selects a random node from graph G
     '''
     return random.choice(list(G.nodes()))
+
 
 def centrality_function_tester(user_func, nx_func):
     ''' 
@@ -35,7 +38,7 @@ def centrality_function_tester(user_func, nx_func):
     Args:
         user_func (function): user's function
         nx_func (NetworkX function)
-    
+
     Returns:
         str: message declaring results of test
     '''
@@ -114,14 +117,16 @@ def centrality_function_tester(user_func, nx_func):
         return "All scenarios passed. Test successful."
     else:
         return f"Test failed at edge case(s): {[failures]} "
-    
-def avg_adj_matrix(sample, degrees): # function to calculate avg adjacency matrix
-    n = len(degrees)
-    sum_matrix = np.zeros((n, n)) # zero matrix to act as "running total"
+
+
+def avg_adj_matrix(sample):  # function to calculate avg adjacency matrix
+    n = len(sample[0].nodes())  # assuming all graphs have same number of nodes
+    sum_matrix = np.zeros((n, n))  # zero matrix to act as "running total"
     for g in sample:
-        sum_matrix += nx.to_numpy_array(g) # convert to array and add to sum
+        sum_matrix += nx.to_numpy_array(g)  # convert to array and add to sum
     avg_matrix = sum_matrix / len(sample)
     return avg_matrix
+
 
 def randomWalkGenerator(n, p):
     G = nx.Graph()
@@ -135,20 +140,23 @@ def randomWalkGenerator(n, p):
     for i in range(2, n):
         existing_nodes = list(range(i))
         G.add_node(i)
-        j = random.choice(existing_nodes) # choosing random existing node
+        j = random.choice(existing_nodes)  # choosing random existing node
         G.add_edge(i, j)
-        x = random.choice(existing_nodes) # choosing another random existing node
+        # choosing another random existing node
+        x = random.choice(existing_nodes)
         if random.random() < p:
             j_neighbors = list(G.neighbors(j))
-            j_neighbors.remove(i) # avoiding connection to i itself
+            j_neighbors.remove(i)  # avoiding connection to i itself
             if len(j_neighbors) > 0:
                 v = random.choice(j_neighbors)
                 G.add_edge(i, v)
             else:
-                G.add_edge(i, x) # fallback to random node if no valid neighbors
+                # fallback to random node if no valid neighbors
+                G.add_edge(i, x)
         else:
-            G.add_edge(i, x) # adding to a different random node
+            G.add_edge(i, x)  # adding to a different random node
     return G
+
 
 def induce_estimated_subgraph(G, size=500):
     """
@@ -172,9 +180,10 @@ def induce_estimated_subgraph(G, size=500):
             nodes_to_add = random.sample(list(next_frontier), size_remaining)
             sample_nodes.update(nodes_to_add)
             break
-    
+
     G_sample = G.subgraph(sample_nodes)
     return G_sample
+
 
 def rnes(G):
     ''' 
@@ -191,36 +200,37 @@ def rnes(G):
         sample.add(node2)
     return list(sample)
 
+
 def all_shortest_from(G, node_i):
     """
     For a given node_i in the network, construct a dictionary containing
     the length of the shortest path between that node and all others in
     the network. Values of -1 correspond to nodes where no paths connect
     to node_i.
-    
+
     Parameters
     ----------
     G (nx.Graph)
         the graph in question
-    
+
     node_i (int or str)
         the label of the "source" node
-    
+
     Returns
     -------
     distances (dict)
         dictionary where the key corresponds to other nodes in the network
         and the values indicate the shortest path length between that node
         and the original node_i source.
-    
+
     """
     queue = [node_i]
-    
+
     distances = {i: -1 for i in G.nodes()}
-    
+
     distances[node_i] = 0
-    
-    while(queue):
+
+    while (queue):
         current_node = queue.pop(0)
         neighbors = G.neighbors(current_node)
         for next_node in neighbors:
@@ -229,6 +239,7 @@ def all_shortest_from(G, node_i):
                 queue.append(next_node)
 
     return distances
+
 
 def remap_partition(partition):
     """
@@ -241,30 +252,30 @@ def remap_partition(partition):
     """
 
     # if partition is a dictionary where the keys are nodes and values communities
-    if type(partition)==dict:
+    if type(partition) == dict:
         unique_comms = np.unique(list(partition.values()))
-        comm_mapping = {i:ix for ix,i in enumerate(unique_comms)}
-        for i,j in partition.items():
+        comm_mapping = {i: ix for ix, i in enumerate(unique_comms)}
+        for i, j in partition.items():
             partition[i] = comm_mapping[j]
 
         unique_comms = np.unique(list(partition.values()))
         communities = [[] for i in unique_comms]
-        for i,j in partition.items():
+        for i, j in partition.items():
             communities[j].append(i)
-            
+
         return communities
 
     # if partition is a list of community assignments
-    elif type(partition)==list and\
+    elif type(partition) == list and\
             not any(isinstance(el, list) for el in partition):
         unique_comms = np.unique(partition)
-        comm_mapping = {i:ix for ix,i in enumerate(unique_comms)}
-        for i,j in enumerate(partition):
+        comm_mapping = {i: ix for ix, i in enumerate(unique_comms)}
+        for i, j in enumerate(partition):
             partition[i] = comm_mapping[j]
 
         unique_comms = np.unique(partition)
         communities = [[] for i in np.unique(partition)]
-        for i,j in enumerate(partition):
+        for i, j in enumerate(partition):
             communities[j].append(i)
 
         return communities
