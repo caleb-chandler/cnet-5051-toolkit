@@ -16,8 +16,12 @@ $ pip install cnet_toolkit
 Example:
 
 ```python
->>> import cnet_toolkit as cnet
->>> cnet.avg_adj_matrix(graphs)
+import cnet_toolkit as cnet
+graphs = []
+for i in range(1000):
+    G = erdos_renyi_graph(500, 0.3)
+    graphs.append(G)
+cnet.avg_adj_matrix(graphs)
 ```
 
 ## Contents
