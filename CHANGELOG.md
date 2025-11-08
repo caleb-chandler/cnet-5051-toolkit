@@ -15,3 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.1]
 - Modified avg_adj_matrix to not require a 'degrees' argument
+
+## [0.1.2]
+- Added docstrings to avg_adj_matrix and randomWalkGenerator
