@@ -43,7 +43,7 @@ Generates a graph using the random walk method. New nodes are connected to two e
 one of that random node's neighbors, or else another random node.
 
 ### ***induce_estimated_subgraph***
-Given a graph G, return the subgraph induced by snowball sampling from G. Sampling starts from 10 random nodes and expands until 500.
+Given a graph G, returns the subgraph induced by snowball sampling from G. Sampling starts from 10 random nodes and expands until 500.
 
 ### ***rnes***
 Returns a random sample of 500 node-neighbor pairs from graph G.
