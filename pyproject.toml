@@ -13,7 +13,7 @@ requires = ["hatchling"]
 [project]
 name = "cnet_toolkit"
 # You can chose to use dynamic versioning with hatch or static where you add it manually.
-version = "0.1.2"
+version = "0.1.1"
 
 description = "Simple package containing 9 functions for use in network analysis work."
 authors = [

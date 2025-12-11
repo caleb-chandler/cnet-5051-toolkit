@@ -119,16 +119,7 @@ def centrality_function_tester(user_func, nx_func):
         return f"Test failed at edge case(s): {[failures]} "
 
 
-def avg_adj_matrix(sample):
-    ''' 
-    Returns the average adjacency matrix from a list of graphs of identical dimension.
-
-    Args:
-        sample (list, tuple, or set): Collection of graphs to be averaged.
-
-    Returns:
-        avg_matrix (np.ndarray): The average matrix.
-    '''
+def avg_adj_matrix(sample):  # function to calculate avg adjacency matrix
     n = len(sample[0].nodes())  # assuming all graphs have same number of nodes
     sum_matrix = np.zeros((n, n))  # zero matrix to act as "running total"
     for g in sample:
@@ -138,18 +129,6 @@ def avg_adj_matrix(sample):
 
 
 def randomWalkGenerator(n, p):
-    ''' 
-    Generates a graph using the random walk method. New nodes are connected to
-    two existing nodes: one random and, with probability p, one of that random
-    node's neighbors, or else another random node.
-
-    Args:
-        n (int): Size of graph.
-        p (int or float): Triadic closure probability.
-
-    Returns:
-        G (nx.Graph): The generated graph.
-    '''
     G = nx.Graph()
     G.add_node(0)
 
